@@ -9,135 +9,106 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
+    AsyncStorage,
+    Alert
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Textarea from 'react-native-textarea';
+import Axios from "react-native-axios";
+
 export default class FeedBack extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             animation_login: new Animated.Value(width - 40),
             enable: true,
+            isSubmit: false,
+            success: false,
+            message: '',
         };
     }
 
-    _animation() {
-        Animated.timing(this.state.animation_login, {
-            toValue: 40,
-            duration: 250,
-        }).start();
-
-        setTimeout(() => {
-            this.setState({
-                enable: false,
-                typing_name: false,
-                typing_email: false,
-                typing_number: false,
-                typing_content: false,
-            });
-        }, 150);
+    addSubmit = async () => {
+        const token = await AsyncStorage.getItem('token');
+        let content = this.state.content || '';
+        Axios.get(`http://hml-project.herokuapp.com/api/user/feedback?token=${token}&content=${content}`)
+            .then((res) => {
+                this.setState({ isSubmit: true, success: res.data.success, message: res.data.message })
+            })
+            .catch((err) => console.log("loi", err));
     }
 
     render() {
         const width = this.state.animation_login;
         return (
-            <ParallaxScrollView backgroundColor="white" contentBackgroundColor="white" parallaxHeaderHeight={0}>
-                <TouchableWithoutFeedback
-                    onPress={() => {
-                        Keyboard.dismiss();
-                    }}
-                >
-                    <View style={styles.container}>
-                        <View style={styles.footer}>
-                            <Text
-                                style={[
-                                    styles.title,
-                                    {
-                                        marginTop: 10,
-                                        fontSize: 18,
-                                    },
-                                ]}
-                            >
-                                Họ Tên
+            <View style={{ width: '100%', height: '100%' }}>
+
+                {this.state.isSubmit == true && (this.state.success ?
+                    Alert.alert(
+                        'Thông báo',
+                        this.state.message,
+                        [{ text: 'OK' }]
+                    ) :
+                    Alert.alert(this.state.message))
+                }
+                <ParallaxScrollView backgroundColor="white" contentBackgroundColor="white" parallaxHeaderHeight={0}>
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            Keyboard.dismiss();
+                        }}
+                    >
+                        <View style={styles.container}>
+                            <View style={styles.footer}>
+                                <Text
+                                    style={[
+                                        styles.title,
+                                        {
+                                            marginTop: 20,
+                                            fontSize: 18,
+                                            marginBottom: 10
+                                        },
+                                    ]}
+                                >
+                                    Nội dung góp ý
 							</Text>
-                            <View style={styles.action}>
-                                <TextInput
-                                    placeholder=" Nhập họ tên..."
-                                    style={styles.textInput}
-                                />
-                            </View>
-
-                            <Text
-                                style={[
-                                    styles.title,
-                                    {
-                                        marginTop: 20,
-                                        fontSize: 18,
-                                    },
-                                ]}
-                            >
-                                Email
-							</Text>
-                            <View style={styles.action}>
-                                <TextInput
-
-                                    placeholder=" Nhập Email..."
-                                    style={styles.textInput}
-                                />
-                            </View>
-                            <Text
-                                style={[
-                                    styles.title,
-                                    {
-                                        marginTop: 20,
-                                        fontSize: 18,
-                                        marginBottom: 10
-                                    },
-                                ]}
-                            >
-                                Nội dung góp ý
-							</Text>
-                            {/* <View style={styles.action}>
-                                <TextInput
-
-                                    placeholder=" Nhập số điện thoại..."
-                                    style={styles.textInput2}
-                                />
-                            </View> */}
-
-                            <View style={styles.action2}>
-                                <Textarea
-                                    placeholder=" Nội dung góp ý..."
-                                    style={styles.textInput}
-                                />
-                            </View>
-
-                            <TouchableOpacity onPress={() => this._animation()}>
-                                <View style={styles.button_container}>
-                                    <Animated.View
-                                        style={[
-                                            styles.animation,
-                                            {
-                                                width,
-                                            },
-                                        ]}
-                                    >
-                                        {this.state.enable ? (
-                                            <Text style={styles.textLogin}>Gửi</Text>
-                                        ) : (
-                                                <Animatable.View animation="bounceIn" delay={50}>
-                                                    <FontAwesome name="check" color="white" size={20} />
-                                                </Animatable.View>
-                                            )}
-                                    </Animated.View>
+                                <View style={styles.action2}>
+                                    <Textarea
+                                        placeholder=" Nội dung góp ý..."
+                                        style={styles.textInput}
+                                        onChange={(input) =>
+                                            this.setState({ content: input.nativeEvent.text })
+                                        }
+                                    />
                                 </View>
-                            </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => this.addSubmit()}>
+                                    <View style={styles.button_container}>
+                                        <Animated.View
+                                            style={[
+                                                styles.animation,
+                                                {
+                                                    width,
+                                                },
+                                            ]}
+                                        >
+                                            {this.state.enable ? (
+                                                <Text style={styles.textLogin}>Gửi</Text>
+                                            ) : (
+                                                    <Animatable.View animation="bounceIn" delay={50}>
+                                                        <FontAwesome name="check" color="white" size={20} />
+                                                    </Animatable.View>
+                                                )}
+                                        </Animated.View>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                </TouchableWithoutFeedback>
-            </ParallaxScrollView>
+                    </TouchableWithoutFeedback>
+                </ParallaxScrollView>
+            </View>
+
         );
     }
 }
