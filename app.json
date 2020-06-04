@@ -10,7 +10,7 @@
       "web"
     ],
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.yourcompany.yourappname"
     },
     "version": "1.0.0",
     "orientation": "portrait",

@@ -10,7 +10,9 @@ import Food from './Screens/Food/ScreenFood'
 import Menu from './Screens/Menu/ScreenMenu'
 import Special from './Screens/Special/ScreenSpecial';
 import Cart from './Screens/Cart/ScreenCart';
-
+///
+import ChatBot from './components/chatbot/chatbot';
+///
 import ScreenAccount from './Screens/Account/ScreenAccount';
 import Login from './Screens/Account/ScreenLogin';
 import Statistic from './Screens/Account/statistic';
@@ -23,12 +25,9 @@ import FeedBack from './Screens/Account/feedBack';
 import Setting from './Screens/Account/setting';
 import ForgotPassword from './Page_SingIn_SingUp/forgotPassword';
 import Tutorial from './Screens_Menu_child/tutorial';
-import TutorialFood from './Screens_Food_child/tutorial';
-import TutorialSpecial from './Screens_Special_child/tutorial';
 import History from './Screens/Account/history';
-import TutorialHistory from './Screens/Account/tutorial';
 import MenuFood from './Screens/Food/DetailMenu';
-import DetailFood from  './Screens/Food/Detail'
+import DetailFood from './Screens/Food/Detail'
 //Change
 import ChangeName from './Screens/Account/setting/change/changeName';
 import ChangeAvatar from './Screens/Account/setting/changeAvatar';
@@ -44,7 +43,7 @@ const tabNavigator = createBottomTabNavigator({
         'Thực đơn': Menu,
         'Món ăn': Detail,
         'Thành phần': Ingredient,
-        'Hướng dẫn': Tutorial,       
+        'Hướng dẫn': Tutorial,
     }),
 
     'Thực phẩm': createStackNavigator({
@@ -69,13 +68,13 @@ const tabNavigator = createBottomTabNavigator({
         'Đăng nhập': Login,
         'Tài khoản': ScreenAccount,
         'Đăng nhập tài khoản': SignIn,
-        'Đăng ký': SignUp,       
+        'Đăng ký': SignUp,
         'Thống kê dinh dưỡng': Statistic,
         'Lịch sử': History,
         'Liên hệ': Contact,
         'Góp ý': FeedBack,
         'Thành phần': Ingredient,
-        'Hướng dẫn': Tutorial, 
+        'Hướng dẫn': Tutorial,
         'Quên mật khẩu': ForgotPassword,
         'Cài đặt': Setting,
         'Thay đổi mật khẩu': ChangePassword,
@@ -85,6 +84,7 @@ const tabNavigator = createBottomTabNavigator({
         'Yêu cầu mật khẩu': RequestPassword,
         'Thay đổi Email': ChangeEmail,
     }),
+
 
 },
     {
@@ -122,11 +122,15 @@ const tabNavigator = createBottomTabNavigator({
                 paddingBottom: 3,
             }
         }
+    }, {
+    showChatBot: () => {
+        <ChatBot />
     }
+}
+
 )
 
 console.disableYellowBox = true;
-
 
 const App = createAppContainer(tabNavigator)
 export default App

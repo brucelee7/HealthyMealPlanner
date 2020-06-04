@@ -61,7 +61,6 @@ export default class ChangeEmail extends React.Component {
             <TouchableWithoutFeedback
                 onPress={() => {
                     Keyboard.dismiss();
-                    console.log('dismissed keyboard');
                 }}
             >
                 <View style={{ height: '100%', width: '100%' }}>

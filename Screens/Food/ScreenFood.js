@@ -4,15 +4,13 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import ScrollableTabView, {
-  DefaultTabBar,
-} from 'react-native-scrollable-tab-view';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import { moderateScale } from 'react-native-size-matters';
+import ChatBot from '../../components/chatbot/chatbot';
 import { Snackbar } from 'react-native-paper';
 import Protein from '../../Screens_Food_child/Protein';
 import Starch from '../../Screens_Food_child/Starch';
-import Fat from '../../Screens_Food_child/Fat';
 import Vegetable from '../../Screens_Food_child/Vegetable';
-import { Ionicons } from '@expo/vector-icons';
 const list = [];
 export default class Home extends React.Component {
   constructor(props) {
@@ -20,12 +18,13 @@ export default class Home extends React.Component {
     this.state = {
       isSnackbarVisible: false,
       total: 0,
+      status: false,
     };
   }
 
   handleTriggerSnackbar = (number, id) => {
     const add = list.includes(id);
-    if(!add) list.push(id);
+    if (!add) list.push(id);
     else list.splice(list.indexOf(id), 1);
     this.setState({
       isSnackbarVisible: true,
@@ -45,7 +44,7 @@ export default class Home extends React.Component {
       isSnackbarVisible: false,
     });
   };
-  
+
   handleNavigateToDetailScreen = () => {
     const { navigation } = this.props;
     navigation.navigate('Món ăn', { total: this.state.total, list: list });
@@ -55,7 +54,7 @@ export default class Home extends React.Component {
     const { total } = this.state;
     return (
       <View style={styles.container}>
-        
+
         <View style={{ alignItems: 'center', flex: 1 }}>
           <View style={styles.tabbar}>
             <ScrollableTabView
@@ -78,10 +77,6 @@ export default class Home extends React.Component {
                 tabLabel='Tinh bột'
                 sendVisibleStatus={this.handleTriggerSnackbar}
               />
-              {/* <Fat
-                tabLabel='Chất béo'
-                sendVisibleStatus={this.handleTriggerSnackbar}
-              /> */}
               <Vegetable
                 tabLabel='Rau quả'
                 sendVisibleStatus={this.handleTriggerSnackbar}
@@ -90,21 +85,22 @@ export default class Home extends React.Component {
           </View>
         </View>
         <Snackbar
-          visible={this.state.total!=0}
+          visible={this.state.total != 0}
           onDismiss={() => this.handleDismissSnackbar()}
           action={{
             label: 'NẤU NGAY',
-            onPress: () => {this.handleDismissSnackbarClick(), this.handleNavigateToDetailScreen()}
+            onPress: () => { this.handleDismissSnackbarClick(), this.handleNavigateToDetailScreen() }
           }}
-          style = {{
+          style={{
             backgroundColor: 'green',
             width: '90%',
             marginLeft: 20,
           }}
         >
-         Đã chọn {total} 
+          Đã chọn {total}
         </Snackbar>
-      </View>
+        <ChatBot />
+      </View >
     );
   }
 }
@@ -139,11 +135,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 15,
     width: 200,
-  },
-  choose2: {
-    width: 150,
-    height: 50,
-    marginRight: 20,
-    marginTop: -10,
   },
 });

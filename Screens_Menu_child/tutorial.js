@@ -25,8 +25,8 @@ export default class Tutorial extends React.Component {
     const link = `https://www.google.com/search?q=${name}`;
     return (
       <View style={styles.container}>
-       <View style={styles.dadOfWebView}>
-          <WebView style={styles.webview} source={{ uri: link }}  />
+        <View style={styles.dadOfWebView}>
+          <WebView style={styles.webview} source={{ uri: link }} />
         </View>
         <View style={styles.videoContent}>
           <TouchableOpacity
@@ -62,12 +62,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
   },
-  video: {
-    top: "100%",
-    left: "30%",
-    position: "relative",
-    height: 120,
-  },
   videoContent: {
     position: "absolute",
     top: "85%",
@@ -100,8 +94,8 @@ const styles = StyleSheet.create({
   webview: {
     width: "100%",
   },
-  dadOfWebView:{
-      height: "83%",
-      width: "100%"
+  dadOfWebView: {
+    height: "83%",
+    width: "100%"
   }
 });

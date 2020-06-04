@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, TextInput, NativeModules } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { withNavigation } from 'react-navigation';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -41,7 +41,7 @@ class All extends React.Component {
     liked[id] = !liked[id]
   }
 
-  sendVisibleStatus = ({item, price}) => {
+  sendVisibleStatus = ({ item, price }) => {
     this.setState({
       isSnackbarVisible: true,
       totalPrice: this.state.totalPrice + item.price,
@@ -57,7 +57,7 @@ class All extends React.Component {
         end={{ x: 1, y: 0 }}
         style={styles.item}
       >
-        <TouchableOpacity style={styles.content} onPress={() => { this.handleLike(item._id), this.props.sendVisibleStatus(liked[item._id]?1:-1, item._id) }}>
+        <TouchableOpacity style={styles.content} onPress={() => { this.handleLike(item._id), this.props.sendVisibleStatus(liked[item._id] ? 1 : -1, item._id) }}>
           <View style={styles.left}>
             <Text style={styles.name}>{item.name}</Text>
           </View>
@@ -90,17 +90,17 @@ class All extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-           <View style={styles.section}>
-              <TextInput
-                placeholder="Tìm thực phẩm..."
-                style={{ flex: 1, marginLeft: 10 }}
-                value={this.state.search}
-                onChangeText={(text) => this._search(text)}
-              />
-              <TouchableOpacity style={{marginRight: 5}} onPress={() => this._search("")}>
-                <Ionicons name="ios-close" color="gray" size={23} />
-              </TouchableOpacity>
-            </View>
+          <View style={styles.section}>
+            <TextInput
+              placeholder="Tìm thực phẩm..."
+              style={{ flex: 1, marginLeft: 10 }}
+              value={this.state.search}
+              onChangeText={(text) => this._search(text)}
+            />
+            <TouchableOpacity style={{ marginRight: 5 }} onPress={() => this._search("")}>
+              <Ionicons name="ios-close" color="gray" size={23} />
+            </TouchableOpacity>
+          </View>
           <View style={styles.flatList}>
             <FlatList
               data={this._filterItems()}

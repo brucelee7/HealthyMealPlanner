@@ -62,7 +62,6 @@ class Cart extends React.Component {
   }
 
   _showPrice = (item) => {
-    const word = '.'
     const price = item.price.toString();
     if (price.includes(".")) {
       return (
@@ -123,7 +122,7 @@ class Cart extends React.Component {
                 value={this.state.search}
                 onChangeText={(text) => this._search(text)}
               />
-              <TouchableOpacity style={{marginRight: 5}} onPress={() => this._search("")}>
+              <TouchableOpacity style={{ marginRight: 5 }} onPress={() => this._search("")}>
                 <Ionicons name="ios-close" color="gray" size={23} />
               </TouchableOpacity>
             </View>
@@ -141,7 +140,7 @@ class Cart extends React.Component {
                 isVisible={this.state.itemSelected == null ? false : true}
                 animationIn={"slideInLeft"}
                 animationOut={"slideOutRight"}
-                onRequestClose={() => {this.setModalVisible(false)}}
+                onRequestClose={() => { this.setModalVisible(false) }}
               >
                 <View style={styles.modal}><WebView source={{ uri: this.state.itemSelected.url }} style={styles.webview} />
                   <TouchableOpacity style={styles.backButton} onPress={this.toggleModal}>

@@ -13,6 +13,7 @@ export default class Menus extends React.Component {
             data_temp: [],
             search: "",
             select: this.props.list,
+            status: false,
         };
     }
 
@@ -24,6 +25,7 @@ export default class Menus extends React.Component {
             dataSource: result["data"],
         })
     }
+
     _search(text) {
         this.setState({ search: text });
     }
@@ -46,8 +48,9 @@ export default class Menus extends React.Component {
             return (
                 <Text> {price}.000 VNĐ</Text>
             )
-        }     
+        }
     }
+
 
     renderItem = ({ item }) => {
         const { navigate } = this.props.navigation;
@@ -78,7 +81,7 @@ export default class Menus extends React.Component {
                                     <Text style={styles.textPrice}> Giá: {this._showPrice(item)} </Text>
                                 </View>
                             </View>
-                            <Text style={{color: '#fff', marginTop: 5}}>{item.message} </Text>
+                            <Text style={{ color: '#fff', marginTop: 5 }}>{item.message} </Text>
                         </View>
                     </TouchableOpacity>
                 </LinearGradient>
@@ -104,7 +107,7 @@ export default class Menus extends React.Component {
                             value={this.state.search}
                             onChangeText={(text) => this._search(text)}
                         />
-                        <TouchableOpacity style={{marginRight: 5}} onPress={() => this._search("")}>
+                        <TouchableOpacity style={{ marginRight: 5 }} onPress={() => this._search("")}>
                             <Ionicons name="ios-close" color="gray" size={23} />
                         </TouchableOpacity>
                     </View>
@@ -117,7 +120,7 @@ export default class Menus extends React.Component {
                             showsVerticalScrollIndicator={false}
                         />
                     </View>
-                </View>
+                </View >
             );
         }
     }
